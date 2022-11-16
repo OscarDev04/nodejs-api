@@ -8,9 +8,10 @@ dotenv.config({path: './config/config.env'})
 const connectDataBase = require('./config/database');
 connectDataBase();
 
+const errorMiddleware = require('./middlewares/errors');
+
 //SetUp Body Parser
 app.use(express.json());
-
 
 // Middlewares, must be before the routes
 
@@ -26,8 +27,7 @@ app.use(middleware);
 // Importing all Routes
 const jobs = require('./routes/jobs');
 app.use('/api/v1/', jobs);
-
-
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT;
 app.listen(PORT, ()=> {
